@@ -47,6 +47,7 @@ class Soup_Query {
     CONST SQL_PARENTHESES_RIGHT 	= " ) ";
     CONST SQL_EQUALS 				= " = ";
 	CONST SQL_CALC_FOUND_ROWS		= " SQL_CALC_FOUND_ROWS ";
+	CONST SQL_NULL                  = "NULL";
 	
     /**
      * Soup_Query Instance
@@ -587,8 +588,13 @@ class Soup_Query {
      * @return void
      */
 	private function _buildInsert(){
-		$keys 	= array_keys($this->_sqlParts["values"]);
+		//$keys 	= array_keys($this->_sqlParts["values"]);
+		$keys 	= array_map(array(&$this, "_quoteSimpleColumnName"), array_keys($this->_sqlParts["values"]));
 		$values = array_map(array(&$this, "_quoteValues"), array_values($this->_sqlParts["values"]));
+        
+        array_walk( $values, function(&$v, $k){
+            is_null( $v ) AND $v = Soup_Query::SQL_NULL;
+        } );
 		
 		$sql 	 = self::INSERT . self::INTO . $this->_sqlParts["from"];
 		$sql 	.= self::SQL_PARENTHESES_LEFT . implode(", ", $keys) . self::SQL_PARENTHESES_RIGHT 
@@ -602,13 +608,14 @@ class Soup_Query {
      * @return void
      */
 	private function _buildUpdate(){
-		$keys 	= array_keys($this->_sqlParts["values"]);
+// 		$keys 	= array_keys($this->_sqlParts["values"]);
+		$keys 	= array_map(array(&$this, "_quoteSimpleColumnName"), array_keys($this->_sqlParts["values"]));
 		$values = array_map(array(&$this, "_quoteValues"), array_values($this->_sqlParts["values"]));
-		
+        
 		$sql 	 = self::UPDATE . $this->_sqlParts["from"] . self::SET;
 		
 		$cols = array(); foreach($keys as $index => $key){
-			$cols[] = $key . self::SQL_EQUALS . $values[$index];
+			$cols[] = $key . self::SQL_EQUALS . ( is_null( $values[$index] ) ? self::SQL_NULL : $values[$index] );
 		}
 		
 		$sql .= implode(", ", $cols);
@@ -634,9 +641,14 @@ class Soup_Query {
      * @return void
      */
 	private function _buildReplace(){
-		$keys 	= array_keys($this->_sqlParts["values"]);
+// 		$keys 	= array_keys($this->_sqlParts["values"]);
+		$keys 	= array_map(array(&$this, "_quoteSimpleColumnName"), array_keys($this->_sqlParts["values"]));
 		$values = array_map(array(&$this, "_quoteValues"), array_values($this->_sqlParts["values"]));
 		
+        array_walk( $values, function(&$v, $k){
+            is_null( $v ) AND $v = Soup_Query::SQL_NULL;
+        } );
+        
 		$sql 	 = self::REPLACE . self::INTO . $this->_sqlParts["from"];
 		$sql 	.= self::SQL_PARENTHESES_LEFT . implode(", ", $keys) . self::SQL_PARENTHESES_RIGHT 
 					. self::VALUES . self::SQL_PARENTHESES_LEFT . implode(", ", $values) . self::SQL_PARENTHESES_RIGHT;
@@ -753,7 +765,7 @@ class Soup_Query {
      * @return string
      */
     private function _quoteValues($value){
-        return "'". addcslashes($value, "\000\n\r\\'\"\032") ."'";
+        return !is_null( $value ) ? "'". addcslashes($value, "\000\n\r\\'\"\032") ."'" : $value;
     }
     
     private function _quoteTableName($name){
