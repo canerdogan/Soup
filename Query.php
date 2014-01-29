@@ -932,9 +932,10 @@ class Soup_Query {
     private function _reFormat($result){     
         $relations  = array();
         $aliases    = $this->_alias;
-        
-        array_walk(array_values($this->_relations), function(&$value) use(&$aliases, &$relations){
-            preg_match("/(.+)\.(.+)\s=\s(.+)\.(.+)/", $value, $matches);
+
+		$somearray = array_values($this->_relations);
+        array_walk($somearray, function(&$value) use(&$aliases, &$relations){
+            preg_match('/(.+)\.(.+)\s=\s(.+)\.(.+)/', $value, $matches);
 
             $left   = $aliases[$matches[3]];
             $right  = $aliases[$matches[1]];

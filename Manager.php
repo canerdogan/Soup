@@ -60,7 +60,7 @@ final class Soup_Manager {
 			
 			reset(self::$_connections);
 			
-			self::$_defaultConnection = & current ( self::$_connections );
+			self::$_defaultConnection = current ( self::$_connections );
 		} 
 		else {
 			if ($connections instanceof Soup_Connection) {
