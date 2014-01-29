@@ -1,0 +1,16 @@
+{
+	"name": "canerdogan/soup",
+	"description": "Soup, easy to use PHP ORM Project",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Can Erdogan",
+			"email": "can@canerdogan.net"
+		},
+		{
+			"name": "Semih Turna",
+			"email": "psychaos@gmail.com"
+		}
+	]
+}
