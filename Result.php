@@ -1,8 +1,14 @@
 <?php
 
 /**
- * @author canerdogan
  *
+ * @package     Soup
+ * @subpackage  Result
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @since       1.0
+ * @version     1.0
+ * @author      Can Erdogan <can@canerdogan.net>
  */
 class Soup_Result extends Soup_Result_Abstract implements Countable, IteratorAggregate
 {

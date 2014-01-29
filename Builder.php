@@ -4,11 +4,11 @@
  *
  * @package     Soup
  * @subpackage  Builder
- * @link        www.Soup-project.org
+ * @link        https://github.com/canerdogan/Soup
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @since       1.0
- * @version     $Revision: 4593 $
- * @author      Jonathan H. Wage <jwage@mac.com>
+ * @version     1.0
+ * @author      Can Erdogan <can@canerdogan.net>
  */
 class Soup_Builder
 {

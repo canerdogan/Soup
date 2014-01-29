@@ -4,10 +4,14 @@
  * 
  * Soup Manager Class
  * Veritabanı bağlantı kontrol sınıfı
- * 
- * @author Semih TURNA
- * @version 1.0.0
- * @package Soup
+ *
+ * @package     Soup
+ * @subpackage  Manager
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @since       1.0
+ * @version     1.0
+ * @author      Semih TURNA <psychaos@gmail.com>
  */
 
 final class Soup_Manager {

@@ -1,21 +1,23 @@
 <?php
 /**
- * class Soup_Import
+ * Soup Importer
  *
  * @package     Soup
  * @subpackage  Import
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @since       1.0
- * @version     $Revision: 7490 $
- * @author      Can Erdogan <can.erdogan@h2b.com.tr>
+ * @version     1.0
+ * @author      Can Erdogan <can@canerdogan.net>
  */
 class Soup_Import
 {
     protected $sql = array();
-    
+
     public function __construct() {
     	$conn = Soup_Manager::getDefaultConnection();
     	$this->conn = $conn;
-    } 
+    }
 
     /**
      * lists all databases
@@ -85,7 +87,7 @@ class Soup_Import
     /**
      * lists table relations
      *
-     * Expects an array of this format to be returned with all the relationships in it where the key is 
+     * Expects an array of this format to be returned with all the relationships in it where the key is
      * the name of the foreign table, and the value is an array containing the local and foreign column
      * name
      *
@@ -344,19 +346,19 @@ class Soup_Import
     {
     	try {
         $classes = array();
-        
+
         print 'start';
 
         $connection = Soup_Manager::getDefaultConnection();
-        
+
           $builder = new Soup_Import_Builder();
           $builder->setTargetPath($directory);
           $builder->setOptions($options);
 
           $definitions = array();
-          
+
           print_r($connection->getImport());
-          
+
           foreach ($connection->getImport()->listTables() as $table) {
               $definition = array();
               $definition['tableName'] = $table;
@@ -418,7 +420,7 @@ class Soup_Import
           }
 
         return $classes;
-        
+
         } catch (Exception $e) {
         	throw new Soup_Import_Exception($e->getMessage());
         }

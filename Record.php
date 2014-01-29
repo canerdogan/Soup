@@ -1,8 +1,15 @@
 <?php
 
-/** 
- * @author canerdogan
- * 
+/**
+ *
+ * @package     Soup
+ * @subpackage  Record
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @since       1.0
+ * @version     1.0
+ * @author      Can Erdogan <can@canerdogan.net>
+ *
  * @method mixed findBy*(mixed $value) magic finders; @see __call()
  * @method mixed findOneBy*(mixed $value) magic finders; @see __call()
 

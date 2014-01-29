@@ -3,10 +3,14 @@
 /**
  * 
  * Soup Generator
- * 
- * @author canerdogan
- * @version 1.0.0
- * @package Soup
+ *
+ * @package     Soup
+ * @subpackage  Generator
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @since       1.0
+ * @version     1.0
+ * @author      Can Erdogan <can@canerdogan.net>
  */
 
 class Soup_Generator {

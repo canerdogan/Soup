@@ -1,4 +1,16 @@
 <?php
+/**
+ *
+ * Soup Helpers
+ *
+ * @package     Soup
+ * @subpackage  Helper
+ * @link        https://github.com/canerdogan/Soup
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @since       1.0
+ * @version     1.0
+ * @author      Semih TURNA <psychaos@gmail.com>
+ */
 
 class Soup_Helper {
 	
