@@ -18,6 +18,11 @@ abstract class Soup_Record_Abstract extends Soup_Access {
 	 * @var array
 	 */
 	private $_sqlOptions = array();
+
+	private $_where;
+	private $_limit;
+	private $_offset;
+	private $_order;
 	
 	/**
 	 * Tablo ayarlanıyor
@@ -265,6 +270,97 @@ abstract class Soup_Record_Abstract extends Soup_Access {
 						 	->execute();
 		}
 		return $result;
+	}
+
+	public function where($where, $params)
+	{
+		$this->_where[] = array(
+				'where'  => $where,
+				'params' => $params
+		);
+
+		return $this;
+	}
+
+	public function limit($limit)
+	{
+		$this->_limit = $limit;
+
+		return $this;
+	}
+
+	public function offset($offset)
+	{
+		$this->_offset = $offset;
+
+		return $this;
+	}
+
+	public function order($order, $type = NULL)
+	{
+		$this->_order = $order . ($type ? ' ' . $type : NULL);
+
+		return $this;
+	}
+
+	private function _quoteValues($value){
+		return !is_null( $value ) ? "'". addcslashes($value, "\000\n\r\\'\"\032") ."'" : $value;
+	}
+
+	private function _format($string, $args){
+		!is_array($args) AND $args = (array)$args;
+
+		$size = sizeof($args);
+
+		if($size > 0){
+			for($i = 0; $i < $size; $i++){
+				if(!is_array($args[$i])){
+					$string = preg_replace('/\?/', $this->_quoteValues($args[$i]), $string, 1);
+				}
+				else{
+					foreach($args[$i] as $key => $arg){
+						$args[$i][$key] = $this->_quoteValues($arg);
+					}
+
+					$values = implode(", ", $args[$i]);
+					$string = preg_replace('/\?/', $values, $string, 1);
+				}
+			}
+		}
+
+		return $string;
+	}
+
+	public function fetch()
+	{
+		$query = Soup_Query::select("SQL_CALC_FOUND_ROWS *")->from($this->getTable()->getTableName());
+		if ($this->_where) {
+			$i = 0;
+			foreach ($this->_where as $where) {
+				if ($i) {
+					$query->andWhere($where['where'], $where['params']);
+				} else {
+					$query->where($where['where'], $where['params']);
+				}
+				$i++;
+			}
+		}
+		if ($this->_limit) {
+			$query->limit($this->_limit);
+		}
+		if ($this->_offset) {
+			$query->offset($this->_offset);
+		}
+		if ($this->_order) {
+			$query->orderBy($this->_order);
+		}
+
+		$this->_where = array();
+		$this->_limit = null;
+		$this->_offset = null;
+		$this->_order = null;
+
+		return $query->execute();
 	}
 	
 	/**

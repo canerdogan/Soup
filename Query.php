@@ -109,6 +109,12 @@ class Soup_Query {
 	public static function getSqlParts(){
 		return self::$_instance->_sqlParts;
 	}
+
+	public function setSqlParts($var, $content){
+		self::$_instance->_sqlParts[$var] = $content;
+
+		return $this;
+	}
 	
 	/**
 	 * Verilen string tablo ismi Soup_Table nesnesi olarak geri döner
